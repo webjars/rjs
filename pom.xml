@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -40,9 +41,13 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <upstreamVersion>2.1.9</upstreamVersion>
-        <downloadUrl>http://requirejs.org/docs/release/${upstreamVersion}</downloadUrl>
-        <destinationDir>${project.build.outputDirectory}/META-INF/resources/webjars/${project.artifactId}/${upstreamVersion}</destinationDir>
+        <upstreamVersion>2.1.10</upstreamVersion>
+        <upstream.url>https://registry.npmjs.org/requirejs/-</upstream.url>
+        <upstream.file>requirejs-${upstreamVersion}.tgz</upstream.file>
+        <extractDir>${project.build.directory}/package</extractDir>
+        <destDir>
+            ${project.build.outputDirectory}/META-INF/resources/webjars/${project.artifactId}/${upstreamVersion}
+        </destDir>
     </properties>
 
     <build>
@@ -53,21 +58,61 @@
                 <version>1.0-beta-4</version>
                 <executions>
                     <execution>
-                        <id>download-full-js</id>
+                        <id>download-archive</id>
                         <phase>process-resources</phase>
-                        <goals><goal>download-single</goal></goals>
+                        <goals>
+                            <goal>download-single</goal>
+                        </goals>
                         <configuration>
-                            <url>${downloadUrl}</url>
-                            <fromFile>r.js</fromFile>
-                            <toDir>${destinationDir}</toDir>
+                            <url>${upstream.url}</url>
+                            <fromFile>${upstream.file}</fromFile>
+                            <toDir>${project.build.directory}</toDir>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <echo message="untar archive"/>
+                                <untar src="${project.build.directory}/${upstream.file}"
+                                       dest="${project.build.directory}"
+                                       compression="gzip"/>
+
+                                <echo message="moving resources"/>
+                                <move file="${extractDir}/package.json" toDir="${destDir}"/>
+                                <move file="${extractDir}/bin" toDir="${destDir}"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.3.2</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.5.1</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>sonatype-nexus-staging</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
             </plugin>
         </plugins>
     </build>
