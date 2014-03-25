@@ -63,8 +63,8 @@
                         <configuration>
                             <target>
                                 <echo message="moving resources" />
-                                <move file="${extractDir}/package.json" toDir="${destDir}" />
-                                <move file="${extractDir}/bin" toDir="${destDir}" />
+                                <copy file="${extractDir}/package.json" toDir="${destDir}" />
+                                <copy file="${extractDir}/bin/r.js" toDir="${destDir}" />
                             </target>
                         </configuration>
                     </execution>
