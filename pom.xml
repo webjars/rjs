@@ -61,14 +61,14 @@
                         </goals>
                         <configuration>
                             <target>
-                                <get src="${upstream.url}" dest="${project.build.directory}/${project.artifactId}.tgz" />
+                                <get src="${upstream.url}" dest="${project.build.directory}/${project.artifactId}.tgz"/>
 
-                                <echo message="untar archive" />
-                                <untar src="${project.build.directory}/${project.artifactId}.tgz" dest="${project.build.directory}" compression="gzip" />
+                                <echo message="untar archive"/>
+                                <untar src="${project.build.directory}/${project.artifactId}.tgz" dest="${project.build.directory}" compression="gzip"/>
 
-                                <echo message="moving resources" />
-                                <move file="${extractDir}/package.json" toDir="${destDir}" />
-                                <move file="${extractDir}/bin" toDir="${destDir}" />
+                                <echo message="moving resources"/>
+                                <move file="${extractDir}/package.json" toDir="${destDir}"/>
+                                <move file="${extractDir}/bin" toDir="${destDir}"/>
                             </target>
                         </configuration>
                     </execution>
@@ -78,13 +78,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.5</version>
+                <version>2.5.1</version>
             </plugin>
 
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.4</version>
+                <version>1.6.5</version>
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>sonatype-nexus-staging</serverId>
