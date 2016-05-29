@@ -18,8 +18,8 @@
 
     <licenses>
         <license>
-            <name>The "New" BSD License or MIT License</name>
-            <url>https://github.com/jrburke/r.js/blob/master/LICENSE</url>
+            <name>The MIT License</name>
+            <url>https://github.com/requirejs/r.js/blob/master/LICENSE</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -40,7 +40,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <upstreamVersion>2.1.19</upstreamVersion>
+        <upstreamVersion>2.2.0</upstreamVersion>
         <upstream.url>https://registry.npmjs.org/requirejs/-/requirejs-${upstreamVersion}.tgz</upstream.url>
         <extractDir>${project.build.directory}/package</extractDir>
         <destDir>
