@@ -40,16 +40,29 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <upstreamVersion>2.3.5</upstreamVersion>
-        <upstream.url>https://registry.npmjs.org/requirejs/-/requirejs-${upstreamVersion}.tgz</upstream.url>
+        <upstream.url>https://registry.npmjs.org/requirejs/-/requirejs-${version.unsnapshot}.tgz</upstream.url>
         <extractDir>${project.build.directory}/package</extractDir>
         <destDir>
-            ${project.build.outputDirectory}/META-INF/resources/webjars/${project.artifactId}/${upstreamVersion}
+            ${project.build.outputDirectory}/META-INF/resources/webjars/${project.artifactId}/${project.version}
         </destDir>
     </properties>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>com.jamesward</groupId>
+                <artifactId>unsnapshot-maven-plugin</artifactId>
+                <version>0.2</version>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>unsnapshot</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>1.7</version>
